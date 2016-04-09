@@ -41,7 +41,7 @@ minecraft {
     // replacing
     replace "@NAME@", config.name
     replace "@VERSION@", config.version
-    replaceIn "building-rails/BuildingRails.java"
+    replaceIn "building_rails/BuildingRails.java"
 }
 
 repositories {
