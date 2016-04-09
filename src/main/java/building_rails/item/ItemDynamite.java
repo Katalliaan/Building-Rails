@@ -1,6 +1,7 @@
 package building_rails.item;
 
 import building_rails.BuildingRails;
+import building_rails.entity.EntityThrownDynamite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -44,6 +45,12 @@ public class ItemDynamite extends Item {
 			}
 
 			itemStack.stackSize--;
+			
+			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer);
+			
+			if (!world.isRemote) {
+				world.spawnEntityInWorld(thrownDynamite);
+			}
 		}
 
 		return itemStack;

@@ -2,6 +2,7 @@ package building_rails;
 
 import java.util.logging.Logger;
 
+import building_rails.entity.EntityThrownDynamite;
 import building_rails.item.ItemDynamite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = BuildingRails.modid, name = BuildingRails.name, version = BuildingRails.version, dependencies = BuildingRails.dependencies)
@@ -33,20 +35,25 @@ public class BuildingRails {
 	// Shared logger
 	public static final Logger logger = Logger.getLogger("Building Rails");
 
-	public static final CreativeTabs creativeTab = new CreativeTabs("Building Rails") {
+	public static final CreativeTabs creativeTab = new CreativeTabs(
+			"Building Rails") {
 		@Override
 		public Item getTabIconItem() {
 			return Item.getItemFromBlock(Blocks.rail);
 		}
 	};
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		GameRegistry.registerItem(new ItemDynamite(), "itemDynamite");
+
+		EntityRegistry.registerModEntity(EntityThrownDynamite.class,
+				"ThrownDynamite", 0, this, 64, 1, true);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		proxy.registerRenderers();
 	}
 
 	@EventHandler
