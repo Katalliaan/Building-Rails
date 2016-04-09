@@ -7,6 +7,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
 public class ItemDynamite extends Item {
@@ -39,9 +40,18 @@ public class ItemDynamite extends Item {
 			ItemStack lighter = entityPlayer.inventory.mainInventory[lighterSlot];
 
 			if (lighter.getItem() instanceof ItemFlintAndSteel) {
-				lighter.damageItem(1, entityPlayer);
+				lighter.setItemDamage(lighter.getItemDamage() + 1);
+				if (lighter.getItemDamage() > lighter.getMaxDamage())
+				{
+					entityPlayer.renderBrokenItemStack(lighter);
+					entityPlayer.addStat(StatList.objectBreakStats[Item.getIdFromItem(lighter.getItem())], 1);
+					entityPlayer.inventory.mainInventory[lighterSlot] = null;
+				}
 			} else if (Math.random() <= 0.25) {
-				lighter.stackSize--;
+				if (--lighter.stackSize <= 0)
+	            {
+					entityPlayer.inventory.mainInventory[lighterSlot] = null;
+	            }
 			}
 
 			itemStack.stackSize--;
