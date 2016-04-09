@@ -1,0 +1,20 @@
+[
+{
+  "modid": "building-rails",
+  "name": "Building Rails",
+  "description": "",
+  "version": "0.1",
+  "mcversion": "10.13.4.1448-1.7.10",
+  "url": "https://github.com/Katalliaan/Building-Rails/",
+  "updateUrl": "https://github.com/Katalliaan/Building-Rails/releases",
+  "authorList": [
+  	"Katalliaan", 
+  	"Gilberreke"
+  	],
+  "credits": "Katalliaan, Abculatter_2",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": [],
+  "namespace": "com.github.Katalliaan.Building-Rails"
+}
+]
