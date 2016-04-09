@@ -16,21 +16,24 @@ public class ItemDynamite extends Item {
 		this.setCreativeTab(BuildingRails.creativeTab);
 	}
 
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+	public ItemStack onItemRightClick(ItemStack itemStack, World world,
+			EntityPlayer entityPlayer) {
 		boolean hasLighter = false;
 		int lighterSlot = -1;
 
 		for (int i = 0; i < 8 && hasLighter == false; i++) {
-			Item checkedItem = entityPlayer.inventory.mainInventory[i]
-					.getItem();
+			if (entityPlayer.inventory.mainInventory[i] != null) {
+				Item checkedItem = entityPlayer.inventory.mainInventory[i]
+						.getItem();
 
-			if (checkedItem instanceof ItemFlintAndSteel
-					|| checkedItem == Items.fire_charge) {
-				hasLighter = true;
-				lighterSlot = i;
+				if (checkedItem instanceof ItemFlintAndSteel
+						|| checkedItem == Items.fire_charge) {
+					hasLighter = true;
+					lighterSlot = i;
+				}
 			}
 		}
-		
+
 		if (hasLighter) {
 			ItemStack lighter = entityPlayer.inventory.mainInventory[lighterSlot];
 
@@ -39,10 +42,10 @@ public class ItemDynamite extends Item {
 			} else if (Math.random() <= 0.25) {
 				lighter.stackSize--;
 			}
-			
+
 			itemStack.stackSize--;
 		}
-		
+
 		return itemStack;
 	}
 }
