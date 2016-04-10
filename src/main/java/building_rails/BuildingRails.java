@@ -45,8 +45,7 @@ public class BuildingRails {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		GameRegistry.registerItem(BRItems.itemDynamite, "itemDynamite");
-		GameRegistry.registerItem(BRItems.blastingCap_iron, "blastingCap_iron");
+		BRItems.registerItems();
 
 		EntityRegistry.registerModEntity(EntityThrownDynamite.class,
 				"ThrownDynamite", 0, this, 64, 1, true);
@@ -54,6 +53,8 @@ public class BuildingRails {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		BRItems.registerRecipes();
+		
 		proxy.registerRenderers();
 	}
 
