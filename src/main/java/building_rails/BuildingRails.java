@@ -33,7 +33,7 @@ public class BuildingRails {
 	public static CommonProxy proxy;
 
 	// Shared logger
-	public static final Logger logger = Logger.getLogger("Building Rails");
+	public static final Logger logger = Logger.getLogger("Building_Rails");
 
 	public static final CreativeTabs creativeTab = new CreativeTabs(
 			"Building Rails") {
@@ -46,6 +46,7 @@ public class BuildingRails {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		GameRegistry.registerItem(BRItems.itemDynamite, "itemDynamite");
+		GameRegistry.registerItem(BRItems.blastingCap_iron, "blastingCap_iron");
 
 		EntityRegistry.registerModEntity(EntityThrownDynamite.class,
 				"ThrownDynamite", 0, this, 64, 1, true);
