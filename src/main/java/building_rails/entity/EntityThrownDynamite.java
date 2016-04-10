@@ -18,6 +18,9 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
 	private int ticksInAir;
+	
+	private final float _speed = 0.75f;
+	private final float _power = 3.0f;
 
 	public EntityThrownDynamite(World world) {
 		super(world);
@@ -28,7 +31,6 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = entityLiving;
-		float speed = 1.5F;
 		fuse = 80;
 
 		this.setSize(1.0F, 1.0F);
@@ -51,7 +53,7 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 		this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F
 				* (float) Math.PI));
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ,
-				speed, 1.0F);
+				_speed, 1.0F);
 	}
 
 	@Override
@@ -91,8 +93,7 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	
 	private void explode()
     {
-        float f = 4.0F;
-        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, f, true);
+        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, _power, true);
     }
 
 	@Override
