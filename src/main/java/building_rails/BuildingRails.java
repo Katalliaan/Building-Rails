@@ -45,7 +45,7 @@ public class BuildingRails {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		GameRegistry.registerItem(new ItemDynamite(), "itemDynamite");
+		GameRegistry.registerItem(BRItems.itemDynamite, "itemDynamite");
 
 		EntityRegistry.registerModEntity(EntityThrownDynamite.class,
 				"ThrownDynamite", 0, this, 64, 1, true);

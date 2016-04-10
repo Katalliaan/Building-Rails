@@ -16,6 +16,12 @@ public class ItemDynamite extends Item {
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(64);
 		this.setCreativeTab(BuildingRails.creativeTab);
+		this.setTextureName(BuildingRails.modid + ":itemDynamite");
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return "building_rails.item.itemDynamite";
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
@@ -57,10 +63,7 @@ public class ItemDynamite extends Item {
 			itemStack.stackSize--;
 			
 			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer);
-			
-			if (!world.isRemote) {
 				world.spawnEntityInWorld(thrownDynamite);
-			}
 		}
 
 		return itemStack;
