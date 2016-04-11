@@ -23,8 +23,6 @@ public class ItemBlastingCap extends Item {
 	}
 	
 	public String getUnlocalizedName(ItemStack stack) {
-		//"building_rails.item.blastingCap_iron"
-		
 		return "building_rails.item.blastingCap_" + capMat.unlocName;
 	}
 	
