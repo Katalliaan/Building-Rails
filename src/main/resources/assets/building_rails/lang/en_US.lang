@@ -1,3 +1,23 @@
+itemGroup.Building Rails=Building Rails
+
 building_rails.item.itemDynamite.name=Dynamite
 building_rails.item.blastingCap_iron.name=Iron Blasting Cap
 building_rails.item.blastingCap_steel.name=Steel Blasting Cap
+
+item.building_rails.item.batWing.name=Bat Wing
+item.building_rails.item.dough.name=Dough
+item.building_rails.item.flour.name=Flour
+item.building_rails.item.fruitSalad.name=Fruit Salad
+item.building_rails.item.mashedPotatoes.name=Mashed Potatoes
+item.building_rails.item.mutton.name=Mutton
+item.building_rails.item.muttonRaw.name=Raw Mutton
+item.building_rails.item.potEmpty.name=Empty Pot
+item.building_rails.item.potMonsterStew.name=Pot of Monster Stew
+item.building_rails.item.potMushsterStew.name=Pot of Mushster Stew
+item.building_rails.item.potRawMonsterStew.name=Pot of Raw Monster Stew
+item.building_rails.item.potRawMushsterStew.name=Pot of Raw Mushster Stew
+item.building_rails.item.potWater.name=Pot of Water
+item.building_rails.item.roastedPumpkin.name=Roasted Pumpkin
+item.building_rails.item.salad.name=Salad
+item.building_rails.item.sashimi.name=Sashimi
+item.building_rails.item.sucklingPorkchop.name=Suckling Porkchop

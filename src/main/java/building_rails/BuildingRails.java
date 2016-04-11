@@ -3,10 +3,12 @@ package building_rails;
 import java.util.logging.Logger;
 
 import building_rails.entity.EntityThrownDynamite;
+import building_rails.events.EventLivingDropListener;
 import building_rails.item.ItemDynamite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -56,6 +58,8 @@ public class BuildingRails {
 		BRItems.registerRecipes();
 		
 		proxy.registerRenderers();
+		
+		MinecraftForge.EVENT_BUS.register(new EventLivingDropListener());
 	}
 
 	@EventHandler
