@@ -94,9 +94,6 @@ public class DynamiteExplosion extends Explosion {
 				if (list.get(i) instanceof EntityItem) {
 					EntityItem item = (EntityItem) list.get(i);
 
-					world.spawnParticle("portal", item.posX, item.posY,
-							item.posZ, 0.0D, 0.0D, 0.0D);
-
 					item.setLocationAndAngles(exploder.posX, exploder.posY,
 							exploder.posZ, item.rotationYaw, item.rotationPitch);
 				}
