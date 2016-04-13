@@ -19,7 +19,7 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
 	private int ticksInAir;
-	private boolean ender;
+	public boolean ender;
 	
 	private final float _speed = 0.75f;
 	private final float _power = 3.0f;

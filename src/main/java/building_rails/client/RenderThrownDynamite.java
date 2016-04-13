@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
+import building_rails.entity.EntityThrownDynamite;
 import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +20,14 @@ public class RenderThrownDynamite extends Render {
 
 	public void doRender(Entity par1Entity, double par2, double par4,
 			double par6, float par8, float par9) {
-		IIcon icon = BRItems.itemDynamite.getIconFromDamage(0);
+		int meta;
+		
+		if (!((EntityThrownDynamite) par1Entity).ender)
+			meta = 0;
+		else
+			meta = 1;
+		
+		IIcon icon = BRItems.itemDynamite.getIconFromDamage(meta);
 
 		if (icon != null) {
 			GL11.glPushMatrix();

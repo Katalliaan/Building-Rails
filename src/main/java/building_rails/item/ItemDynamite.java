@@ -100,6 +100,8 @@ public class ItemDynamite extends Item {
 
 			itemStack.stackSize--;
 			
+			world.playSoundAtEntity(entityPlayer, "game.tnt.primed", 1.0F, 1.0F);
+			
 			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer, isEnder(itemStack));
 				world.spawnEntityInWorld(thrownDynamite);
 		}
