@@ -8,12 +8,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+
+import java.util.List;
 
 public class ItemDynamite extends Item {
-
+	private int subtypeCount;
+	private IIcon[] icons;
+	
 	public ItemDynamite() {
 		this.setHasSubtypes(true);
+		this.subtypeCount = 2;
 		this.setMaxStackSize(64);
 		this.setCreativeTab(BuildingRails.creativeTab);
 		this.setTextureName(BuildingRails.modid + ":itemDynamite");
@@ -21,7 +29,37 @@ public class ItemDynamite extends Item {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
+		if (stack.getItemDamage() == 1)
+			return "building_rails.item.itemDynamite.ender";
+		
 		return "building_rails.item.itemDynamite";
+	}
+	
+	@Override
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		for (int i = 0; i < subtypeCount; i++)
+			list.add(new ItemStack(item, 1, i));
+	}
+	
+	@Override
+	public IIcon getIconFromDamage(int meta) {
+		return this.icons[meta];
+	}
+	
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		this.icons = new IIcon[this.subtypeCount];
+		
+		for (int i = 0; i < subtypeCount; i++) {
+			if (i == 0)
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamite");
+			if (i == 1)
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteEnder");
+		}
+	}
+	
+	private static boolean isEnder(ItemStack stack) {
+		return (stack.getItemDamage() == 1);
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
@@ -62,7 +100,7 @@ public class ItemDynamite extends Item {
 
 			itemStack.stackSize--;
 			
-			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer);
+			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer, isEnder(itemStack));
 				world.spawnEntityInWorld(thrownDynamite);
 		}
 

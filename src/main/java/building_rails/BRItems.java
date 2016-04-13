@@ -59,6 +59,7 @@ public class BRItems {
 	
 	public static void registerRecipes() {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite), " s ", "pgp", "pgp", 's', Items.string, 'p', Items.paper, 'g', Items.gunpowder));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite, 8, 1), "ddd", "ded", "ddd", 'd', new ItemStack(itemDynamite, 1), 'e', Items.ender_pearl));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blastingCap_iron), " f ", "iri", " i ", 'f', Items.flint_and_steel, 'r', "dustRedstone", 'i', "ingotIron"));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blastingCap_steel), " f ", "iri", " i ", 'f', Items.flint_and_steel, 'r', "dustRedstone", 'i', "ingotSteel"));
 	}

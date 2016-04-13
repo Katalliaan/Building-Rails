@@ -1,5 +1,6 @@
 package building_rails.entity;
 
+import building_rails.events.DynamiteExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
@@ -18,6 +19,7 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	public EntityLivingBase shootingEntity;
 	private int ticksAlive;
 	private int ticksInAir;
+	private boolean ender;
 	
 	private final float _speed = 0.75f;
 	private final float _power = 3.0f;
@@ -27,11 +29,12 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 		this.setSize(1.0F, 1.0F);
 	}
 
-	public EntityThrownDynamite(World world, EntityLivingBase entityLiving) {
+	public EntityThrownDynamite(World world, EntityLivingBase entityLiving, boolean ender) {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = entityLiving;
 		fuse = 80;
+		this.ender = ender;
 
 		this.setSize(1.0F, 1.0F);
 		this.setLocationAndAngles(entityLiving.posX, entityLiving.posY
@@ -87,13 +90,18 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
         }
         else
         {
-            this.worldObj.spawnParticle("smoke", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
         }
 	}
 	
 	private void explode()
     {
-        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, _power, true);
+        DynamiteExplosion explosion = new DynamiteExplosion(this.worldObj, this.shootingEntity, this.posX, this.posY, this.posZ, _power, ender);
+        explosion.isFlaming = false;
+        explosion.isSmoking = true;
+        if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.worldObj, explosion)) return;
+        explosion.doExplosionA();
+        explosion.doExplosionB(true);
     }
 
 	@Override
@@ -103,6 +111,7 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 		this.zTile = nbttagcompound.getShort("zTile");
 		this.inTile = nbttagcompound.getByte("inTile") & 255;
 		this.inGround = nbttagcompound.getByte("inGround") == 1;
+		this.ender = nbttagcompound.getBoolean("ender");
 		
 		this.fuse = nbttagcompound.getShort("fuse");
 
@@ -129,6 +138,7 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 						this.motionY, this.motionZ }));
 		
 		nbttagcompound.setShort("fuse", (short) this.fuse);
+		nbttagcompound.setBoolean("ender", ender);
 	}
 
 	@Override
