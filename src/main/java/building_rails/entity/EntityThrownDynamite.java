@@ -4,8 +4,10 @@ import building_rails.events.DynamiteExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -27,16 +29,25 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	public EntityThrownDynamite(World world) {
 		super(world);
 		this.setSize(1.0F, 1.0F);
+		this.renderDistanceWeight = 10.0D;
+		this.fuse = 80;
+		this.yOffset = 0.0F;
+	}
+	
+	public EntityThrownDynamite (World world, double posX, double posY, double posZ, EnumFacing enumFacing) {
+		this(world);
+
+		this.ender = false;
+		this.setPosition(posX, posY, posZ);
+		
+		this.setThrowableHeading(enumFacing.getFrontOffsetX(), enumFacing.getFrontOffsetY(), enumFacing.getFrontOffsetZ(), _speed, 1.0F);
 	}
 
 	public EntityThrownDynamite(World world, EntityLivingBase entityLiving, boolean ender) {
-		super(world);
-		this.renderDistanceWeight = 10.0D;
+		this(world);
 		this.shootingEntity = entityLiving;
-		fuse = 80;
 		this.ender = ender;
 
-		this.setSize(1.0F, 1.0F);
 		this.setLocationAndAngles(entityLiving.posX, entityLiving.posY
 				+ (double) entityLiving.getEyeHeight(), entityLiving.posZ,
 				entityLiving.rotationYaw, entityLiving.rotationPitch);
@@ -46,7 +57,6 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 		this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F
 				* (float) Math.PI) * 0.16F);
 		this.setPosition(this.posX, this.posY, this.posZ);
-		this.yOffset = 0.0F;
 		this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F
 				* (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F
 				* (float) Math.PI));

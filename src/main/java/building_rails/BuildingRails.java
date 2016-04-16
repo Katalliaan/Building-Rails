@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 import building_rails.entity.EntityThrownDynamite;
 import building_rails.events.EventLivingDropListener;
-import building_rails.item.ItemDynamite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -56,6 +55,7 @@ public class BuildingRails {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		BRItems.registerRecipes();
+		BRItems.registerDispenserBehaviors();
 		
 		proxy.registerRenderers();
 		

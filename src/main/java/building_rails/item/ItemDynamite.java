@@ -2,14 +2,25 @@ package building_rails.item;
 
 import building_rails.BuildingRails;
 import building_rails.entity.EntityThrownDynamite;
+import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
+import net.minecraft.dispenser.IBehaviorDispenseItem;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
+import net.minecraft.item.ItemMinecart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDispenser;
+import net.minecraft.block.BlockFire;
+import net.minecraft.block.BlockRailBase;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 
@@ -108,4 +119,47 @@ public class ItemDynamite extends Item {
 
 		return itemStack;
 	}
+	
+	public static final IBehaviorDispenseItem dispenserDynamiteBehavior = new BehaviorDefaultDispenseItem() {
+		private final BehaviorDefaultDispenseItem behaviourDefaultDispenseItem = new BehaviorDefaultDispenseItem();
+		
+		/**
+         * Dispense the specified stack, play the dispense sound and spawn particles.
+         */
+        public ItemStack dispenseStack(IBlockSource blockSource, ItemStack stack)
+        {
+            EnumFacing enumfacing = BlockDispenser.func_149937_b(blockSource.getBlockMetadata());
+            World world = blockSource.getWorld();
+            double posX = blockSource.getX() + (double)((float)enumfacing.getFrontOffsetX() * 1.125F);
+            double posY = blockSource.getY() + (double)((float)enumfacing.getFrontOffsetY() * 1.125F);
+            double posZ = blockSource.getZ() + (double)((float)enumfacing.getFrontOffsetZ() * 1.125F);
+            int i = blockSource.getXInt() + enumfacing.getFrontOffsetX();
+            int j = blockSource.getYInt() + enumfacing.getFrontOffsetY();
+            int k = blockSource.getZInt() + enumfacing.getFrontOffsetZ();
+            Block block = world.getBlock(i, j, k);
+
+            if (block instanceof BlockFire && !isEnder(stack))
+            {
+            	world.playSoundEffect(posX, posY, posZ, "game.tnt.primed", 1.0F, 1.0F);
+            	
+            	EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, posX, posY, posZ, enumfacing);
+                world.spawnEntityInWorld(thrownDynamite);
+
+            }
+            else
+            {
+            	return this.behaviourDefaultDispenseItem.dispense(blockSource, stack);
+            }
+            
+            stack.splitStack(1);
+            return stack;
+        }
+        /**
+         * Play the dispense sound from the specified block.
+         */
+        protected void playDispenseSound(IBlockSource p_82485_1_)
+        {
+            p_82485_1_.getWorld().playAuxSFX(1000, p_82485_1_.getXInt(), p_82485_1_.getYInt(), p_82485_1_.getZInt(), 0);
+        }
+	};
 }
