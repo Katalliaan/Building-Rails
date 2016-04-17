@@ -1,28 +1,34 @@
 package building_rails.entity;
 
+import building_rails.BuildingRails;
 import building_rails.events.DynamiteExplosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 
-public class EntityThrownDynamite extends Entity implements IProjectile {
-	private int xTile;
-	private int yTile;
-	private int zTile;
-	private int inTile;
+public class EntityThrownDynamite extends EntityThrowable {
 	private int fuse;
 	private boolean inGround;
 	public EntityLivingBase shootingEntity;
-	private int ticksAlive;
-	private int ticksInAir;
+
 	public boolean ender;
-	
+	public boolean sticky;
+	public boolean stuck;
+	private int stuckEntityID;
+	private double xHit = 0.0D;
+	private double yHit = 0.0D;
+	private double zHit = 0.0D;
+
 	private final float _speed = 0.75f;
 	private final float _power = 3.0f;
 
@@ -32,21 +38,29 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 		this.renderDistanceWeight = 10.0D;
 		this.fuse = 80;
 		this.yOffset = 0.0F;
+
+		this.stuck = false;
 	}
-	
-	public EntityThrownDynamite (World world, double posX, double posY, double posZ, EnumFacing enumFacing) {
+
+	public EntityThrownDynamite(World world, double posX, double posY,
+			double posZ, EnumFacing enumFacing, boolean sticky) {
 		this(world);
 
 		this.ender = false;
+		this.sticky = sticky;
 		this.setPosition(posX, posY, posZ);
-		
-		this.setThrowableHeading(enumFacing.getFrontOffsetX(), enumFacing.getFrontOffsetY(), enumFacing.getFrontOffsetZ(), _speed, 1.0F);
+
+		this.setThrowableHeading(enumFacing.getFrontOffsetX(),
+				enumFacing.getFrontOffsetY(), enumFacing.getFrontOffsetZ(),
+				_speed, 1.0F);
 	}
 
-	public EntityThrownDynamite(World world, EntityLivingBase entityLiving, boolean ender) {
+	public EntityThrownDynamite(World world, EntityLivingBase entityLiving,
+			boolean ender, boolean sticky) {
 		this(world);
 		this.shootingEntity = entityLiving;
 		this.ender = ender;
+		this.sticky = sticky;
 
 		this.setLocationAndAngles(entityLiving.posX, entityLiving.posY
 				+ (double) entityLiving.getEyeHeight(), entityLiving.posZ,
@@ -70,59 +84,92 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	}
 
 	@Override
-	protected void entityInit() { }
-	
-	public void onUpdate() {
-		this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.motionY -= 0.03999999910593033D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9800000190734863D;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= 0.9800000190734863D;
-
-        if (this.onGround)
-        {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
-            this.motionY *= -0.5D;
-        }
-
-        if (this.fuse-- <= 0)
-        {
-            this.setDead();
-
-            if (!this.worldObj.isRemote)
-            {
-                this.explode();
-            }
-        }
-        else
-        {
-            this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-        }
+	protected void entityInit() {
 	}
-	
-	private void explode()
-    {
-        DynamiteExplosion explosion = new DynamiteExplosion(this.worldObj, this.shootingEntity, this.posX, this.posY, this.posZ, _power, ender);
-        explosion.isFlaming = false;
-        explosion.isSmoking = true;
-        if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.worldObj, explosion)) return;
-        explosion.doExplosionA();
-        explosion.doExplosionB(true);
-    }
+
+	public void onUpdate() {
+		if (this.sticky && this.stuck) {
+			Entity stuckEntity = this.worldObj
+					.getEntityByID(this.stuckEntityID);
+
+			if (this.stuckEntityID != 0 && stuckEntity == null) {
+				this.stuck = false;
+				this.stuckEntityID = 0;
+			} else if (this.stuckEntityID != 0 && stuckEntity != null) {
+				this.motionX = stuckEntity.motionX;
+				this.motionY = stuckEntity.motionY;
+				this.motionZ = stuckEntity.motionZ;
+
+				this.posX = stuckEntity.posX;
+				this.posY = stuckEntity.posY;
+				this.posY = stuckEntity.posY;
+			}
+		} else {
+			super.onUpdate();
+		}
+
+		if (this.fuse-- <= 0) {
+			this.setDead();
+
+			if (!this.worldObj.isRemote) {
+				this.explode();
+			}
+		} else {
+			this.worldObj.spawnParticle("smoke", this.posX, this.posY,
+					this.posZ, 0.0D, 0.0D, 0.0D);
+		}
+	}
+
+	protected void onImpact(MovingObjectPosition mop) {
+		if (sticky) {
+			if (!this.stuck && mop.typeOfHit == MovingObjectType.ENTITY) {
+				if (mop.entityHit != this.shootingEntity) {
+					mop.entityHit.attackEntityFrom(
+							DamageSource.causeThrownDamage(this, getThrower()),
+							0.0F);
+
+					this.stuckEntityID = mop.entityHit.getEntityId();
+
+					this.motionX = mop.entityHit.motionX;
+					this.motionY = mop.entityHit.motionY;
+					this.motionZ = mop.entityHit.motionZ;
+
+					this.stuck = true;
+				}
+			} else if (!this.stuck && mop.typeOfHit == MovingObjectType.BLOCK) {
+				this.xHit = this.posX;
+				this.yHit = this.posY;
+				this.zHit = this.posZ;
+
+				this.motionX = 0.0D;
+				this.motionY = 0.0D;
+				this.motionZ = 0.0D;
+
+				this.stuck = true;
+			}
+		}
+	}
+
+	private void explode() {
+		DynamiteExplosion explosion = new DynamiteExplosion(this.worldObj,
+				this.shootingEntity, this.posX, this.posY, this.posZ, _power,
+				ender);
+		explosion.isFlaming = false;
+		explosion.isSmoking = true;
+		if (net.minecraftforge.event.ForgeEventFactory.onExplosionStart(
+				this.worldObj, explosion))
+			return;
+		explosion.doExplosionA();
+		explosion.doExplosionB(true);
+	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-		this.xTile = nbttagcompound.getShort("xTile");
-		this.yTile = nbttagcompound.getShort("yTile");
-		this.zTile = nbttagcompound.getShort("zTile");
-		this.inTile = nbttagcompound.getByte("inTile") & 255;
-		this.inGround = nbttagcompound.getByte("inGround") == 1;
+	public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+		super.readEntityFromNBT(nbttagcompound);
+
 		this.ender = nbttagcompound.getBoolean("ender");
-		
+		this.sticky = nbttagcompound.getBoolean("sticky");
+
 		this.fuse = nbttagcompound.getShort("fuse");
 
 		if (nbttagcompound.hasKey("direction")) {
@@ -136,19 +183,17 @@ public class EntityThrownDynamite extends Entity implements IProjectile {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-		nbttagcompound.setShort("xTile", (short) this.xTile);
-		nbttagcompound.setShort("yTile", (short) this.yTile);
-		nbttagcompound.setShort("zTile", (short) this.zTile);
-		nbttagcompound.setByte("inTile", (byte) this.inTile);
-		nbttagcompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
+	public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+		super.writeEntityToNBT(nbttagcompound);
+
 		nbttagcompound.setTag(
 				"direction",
 				this.newDoubleNBTList(new double[] { this.motionX,
 						this.motionY, this.motionZ }));
-		
+
 		nbttagcompound.setShort("fuse", (short) this.fuse);
 		nbttagcompound.setBoolean("ender", ender);
+		nbttagcompound.setBoolean("sticky", sticky);
 	}
 
 	@Override

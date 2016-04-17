@@ -22,10 +22,14 @@ public class RenderThrownDynamite extends Render {
 			double par6, float par8, float par9) {
 		int meta;
 		
-		if (!((EntityThrownDynamite) par1Entity).ender)
+		if (!((EntityThrownDynamite) par1Entity).ender && !((EntityThrownDynamite) par1Entity).sticky)
 			meta = 0;
-		else
+		else if (((EntityThrownDynamite) par1Entity).ender && !((EntityThrownDynamite) par1Entity).sticky)
 			meta = 1;
+		else if (!((EntityThrownDynamite) par1Entity).ender && ((EntityThrownDynamite) par1Entity).sticky)
+			meta = 2;
+		else
+			meta = 3;
 		
 		IIcon icon = BRItems.itemDynamite.getIconFromDamage(meta);
 

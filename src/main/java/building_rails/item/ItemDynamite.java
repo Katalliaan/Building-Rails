@@ -32,7 +32,7 @@ public class ItemDynamite extends Item {
 	
 	public ItemDynamite() {
 		this.setHasSubtypes(true);
-		this.subtypeCount = 2;
+		this.subtypeCount = 4;
 		this.setMaxStackSize(64);
 		this.setCreativeTab(BuildingRails.creativeTab);
 		this.setTextureName(BuildingRails.modid + ":itemDynamite");
@@ -42,6 +42,10 @@ public class ItemDynamite extends Item {
 	public String getUnlocalizedName(ItemStack stack) {
 		if (stack.getItemDamage() == 1)
 			return "building_rails.item.itemDynamite.ender";
+		if (stack.getItemDamage() == 2)
+			return "building_rails.item.itemDynamite.sticky";
+		if (stack.getItemDamage() == 3)
+			return "building_rails.item.itemDynamite.combo";
 		
 		return "building_rails.item.itemDynamite";
 	}
@@ -66,11 +70,19 @@ public class ItemDynamite extends Item {
 				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamite");
 			if (i == 1)
 				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteEnder");
+			if (i == 2)
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteSticky");
+			if (i == 3)
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteCombo");
 		}
 	}
 	
 	private static boolean isEnder(ItemStack stack) {
-		return (stack.getItemDamage() == 1);
+		return (stack.getItemDamage() == 1 || stack.getItemDamage() == 3);
+	}
+	
+	private static boolean isSticky(ItemStack stack) {
+		return (stack.getItemDamage() == 2 || stack.getItemDamage() == 3);
 	}
 
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
@@ -113,8 +125,10 @@ public class ItemDynamite extends Item {
 			
 			world.playSoundAtEntity(entityPlayer, "game.tnt.primed", 1.0F, 1.0F);
 			
-			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer, isEnder(itemStack));
+			if (!world.isRemote) {
+			EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, entityPlayer, isEnder(itemStack), isSticky(itemStack));
 				world.spawnEntityInWorld(thrownDynamite);
+			}
 		}
 
 		return itemStack;
@@ -142,9 +156,8 @@ public class ItemDynamite extends Item {
             {
             	world.playSoundEffect(posX, posY, posZ, "game.tnt.primed", 1.0F, 1.0F);
             	
-            	EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, posX, posY, posZ, enumfacing);
+            	EntityThrownDynamite thrownDynamite = new EntityThrownDynamite(world, posX, posY, posZ, enumfacing, isSticky(stack));
                 world.spawnEntityInWorld(thrownDynamite);
-
             }
             else
             {
