@@ -88,18 +88,37 @@ public class EntityThrownDynamite extends EntityThrowable {
 	}
 
 	public void onUpdate() {
-		if (this.sticky && this.stuck) {
-			Entity stuckEntity = this.worldObj
-					.getEntityByID(this.stuckEntityID);
+		if (this.sticky) {
+			if (this.stuck) {
+				Entity stuckEntity = this.worldObj
+						.getEntityByID(this.stuckEntityID);
 
-			if (this.stuckEntityID != 0 && stuckEntity == null) {
-				this.stuck = false;
-				this.stuckEntityID = 0;
-			} else if (this.stuckEntityID != 0 && stuckEntity != null) {
-				this.setPosition(stuckEntity.posX, stuckEntity.posY + stuckEntity.yOffset, stuckEntity.posZ);
+				if (this.stuckEntityID != 0 && stuckEntity == null) {
+					this.stuck = false;
+					this.stuckEntityID = 0;
+				} else if (this.stuckEntityID != 0 && stuckEntity != null) {
+					this.setPosition(stuckEntity.posX, stuckEntity.posY + stuckEntity.yOffset, stuckEntity.posZ);
+				}
+			} else {
+				super.onUpdate();
 			}
-		} else {
-			super.onUpdate();
+		}
+		else {
+			this.prevPosX = this.posX;
+	        this.prevPosY = this.posY;
+	        this.prevPosZ = this.posZ;
+	        this.motionY -= 0.03999999910593033D;
+	        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+	        this.motionX *= 0.9800000190734863D;
+	        this.motionY *= 0.9800000190734863D;
+	        this.motionZ *= 0.9800000190734863D;
+
+	        if (this.onGround)
+	        {
+	            this.motionX *= 0.699999988079071D;
+	            this.motionZ *= 0.699999988079071D;
+	            this.motionY *= -0.5D;
+	        }
 		}
 
 		if (this.fuse-- <= 0) {
