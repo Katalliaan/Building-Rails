@@ -96,13 +96,7 @@ public class EntityThrownDynamite extends EntityThrowable {
 				this.stuck = false;
 				this.stuckEntityID = 0;
 			} else if (this.stuckEntityID != 0 && stuckEntity != null) {
-				this.motionX = stuckEntity.motionX;
-				this.motionY = stuckEntity.motionY;
-				this.motionZ = stuckEntity.motionZ;
-
-				this.posX = stuckEntity.posX;
-				this.posY = stuckEntity.posY;
-				this.posY = stuckEntity.posY;
+				this.setPosition(stuckEntity.posX, stuckEntity.posY + stuckEntity.yOffset, stuckEntity.posZ);
 			}
 		} else {
 			super.onUpdate();
