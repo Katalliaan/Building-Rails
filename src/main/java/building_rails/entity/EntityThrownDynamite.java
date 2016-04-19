@@ -1,5 +1,7 @@
 package building_rails.entity;
 
+import io.netty.buffer.ByteBuf;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import building_rails.BuildingRails;
 import building_rails.events.DynamiteExplosion;
 import net.minecraft.entity.Entity;
@@ -16,7 +18,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 
-public class EntityThrownDynamite extends EntityThrowable {
+public class EntityThrownDynamite extends EntityThrowable implements IEntityAdditionalSpawnData {
 	private int fuse;
 	private boolean inGround;
 	public EntityLivingBase shootingEntity;
@@ -235,5 +237,18 @@ public class EntityThrownDynamite extends EntityThrowable {
 		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(x, z) * 180.0D / Math.PI);
 		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(y,
 				(double) f3) * 180.0D / Math.PI);
+	}
+
+	@Override
+	public void writeSpawnData(ByteBuf buffer) {
+		buffer.writeBoolean(this.ender);
+		buffer.writeBoolean(this.sticky);
+	}
+
+	@Override
+	public void readSpawnData(ByteBuf additionalData) {
+		this.ender = additionalData.readBoolean();
+		this.sticky = additionalData.readBoolean();
+		
 	}
 }
