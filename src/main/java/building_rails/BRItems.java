@@ -26,76 +26,76 @@ public class BRItems {
 	// Explosives
 	public static Item itemDynamite = new ItemDynamite();
 	public static Item blastingCap_iron = new ItemBlastingCap(CapMaterial.IRON)
-			.setTextureName(BuildingRails.modid + ":blastingCap_iron");
+			.setTextureName(BuildingRails.modid + ":explosives/blastingCap_iron");
 	public static Item blastingCap_steel = new ItemBlastingCap(
 			CapMaterial.STEEL).setTextureName(BuildingRails.modid
-			+ ":blastingCap_steel");
+			+ ":explosives/blastingCap_steel");
 
 	// Food (ingredients)
 	public static Item itemBatWing = (new ItemBatWing(1, false)
 			.setUnlocalizedName("building_rails.item.batWing")
-			.setTextureName(BuildingRails.modid + ":batwing"));
+			.setTextureName(BuildingRails.modid + ":food/batwing"));
 	public static Item itemDough = new Item()
 			.setUnlocalizedName("building_rails.item.dough")
-			.setTextureName(BuildingRails.modid + ":dough")
+			.setTextureName(BuildingRails.modid + ":food/dough")
 			.setCreativeTab(BuildingRails.creativeTab);;
 	public static Item itemFlour = new Item()
 			.setUnlocalizedName("building_rails.item.flour")
-			.setTextureName(BuildingRails.modid + ":flour")
+			.setTextureName(BuildingRails.modid + ":food/flour")
 			.setCreativeTab(BuildingRails.creativeTab);
 	public static Item itemMuttonRaw = new ItemFood(1, true)
 			.setUnlocalizedName("building_rails.item.muttonRaw")
-			.setTextureName(BuildingRails.modid + ":muttonRaw");
+			.setTextureName(BuildingRails.modid + ":food/muttonRaw");
 	public static Item itemMutton = new ItemFood(1, true).setUnlocalizedName(
 			"building_rails.item.mutton").setTextureName(
-			BuildingRails.modid + ":mutton");
+			BuildingRails.modid + ":food/mutton");
 
 	// Food (bowl)
 	public static Item itemFruitSalad = new ItemBowlFood(1, false)
 			.setUnlocalizedName("building_rails.item.fruitSalad")
-			.setTextureName(BuildingRails.modid + ":fruitSalad");
+			.setTextureName(BuildingRails.modid + ":food/fruitSalad");
 	public static Item itemMashedPotatoes = new ItemBowlFood(1, false)
 			.setUnlocalizedName("building_rails.item.mashedPotatoes")
-			.setTextureName(BuildingRails.modid + ":mashedPotatoes");
+			.setTextureName(BuildingRails.modid + ":food/mashedPotatoes");
 	public static Item itemSalad = new ItemBowlFood(1, false)
 			.setUnlocalizedName("building_rails.item.salad").setTextureName(
-					BuildingRails.modid + ":salad");
+					BuildingRails.modid + ":food/salad");
 
 	// Food (pot)
 	public static Item itemPotEmpty = new Item()
 			.setUnlocalizedName("building_rails.item.potEmpty")
-			.setTextureName(BuildingRails.modid + ":potEmpty")
+			.setTextureName(BuildingRails.modid + ":food/potEmpty")
 			.setCreativeTab(BuildingRails.creativeTab);
 	public static Item itemPotMonsterStew = new ItemMonsterStew(1, false)
 			.setUnlocalizedName("building_rails.item.potMonsterStew")
-			.setTextureName(BuildingRails.modid + ":potMonsterStew");
+			.setTextureName(BuildingRails.modid + ":food/potMonsterStew");
 	public static Item itemPotMushsterStew = new ItemMushsterStew(1, false)
 			.setUnlocalizedName("building_rails.item.potMushsterStew")
-			.setTextureName(BuildingRails.modid + ":potMushsterStew");
+			.setTextureName(BuildingRails.modid + ":food/potMushsterStew");
 	public static Item itemPotRawMonsterStew = new ItemRawMonsterStew(1, false)
 			.setUnlocalizedName("building_rails.item.potRawMonsterStew")
-			.setTextureName(BuildingRails.modid + ":potRawMonsterStew");
+			.setTextureName(BuildingRails.modid + ":food/potRawMonsterStew");
 	public static Item itemPotRawMushsterStew = new ItemRawMushsterStew(1,
 			false).setUnlocalizedName("building_rails.item.potRawMushsterStew")
-			.setTextureName(BuildingRails.modid + ":potRawMushsterStew");
+			.setTextureName(BuildingRails.modid + ":food/potRawMushsterStew");
 	public static Item itemPotWater = new Item()
 			.setUnlocalizedName("building_rails.item.potWater")
-			.setTextureName(BuildingRails.modid + ":potWater")
+			.setTextureName(BuildingRails.modid + ":food/potWater")
 			.setCreativeTab(BuildingRails.creativeTab);
 	public static Item itemStock = new ItemPotFood(1, false)
 			.setUnlocalizedName("building_rails.item.stock").setTextureName(
-					BuildingRails.modid + ":potStock");
+					BuildingRails.modid + ":food/potStock");
 
 	// Food (others)
 	public static Item itemRoastedPumpkin = new ItemFood(1, false)
 			.setUnlocalizedName("building_rails.item.roastedPumpkin")
-			.setTextureName(BuildingRails.modid + ":roastedPumpkin");
+			.setTextureName(BuildingRails.modid + ":food/roastedPumpkin");
 	public static Item itemSashimi = new ItemFood(1, false).setUnlocalizedName(
 			"building_rails.item.sashimi").setTextureName(
-			BuildingRails.modid + ":sashimi");
+			BuildingRails.modid + ":food/sashimi");
 	public static Item itemSucklingPorkchop = new ItemFood(1, true)
 			.setUnlocalizedName("building_rails.item.sucklingPorkchop")
-			.setTextureName(BuildingRails.modid + ":sucklingPorkchop");
+			.setTextureName(BuildingRails.modid + ":food/sucklingPorkchop");
 
 	public static void registerItems() {
 		// Explosives
@@ -108,8 +108,8 @@ public class BRItems {
 		GameRegistry.registerItem(BRItems.itemBatWing, "itemBatWing");
 		GameRegistry.registerItem(BRItems.itemDough, "itemDough");
 		GameRegistry.registerItem(BRItems.itemFlour, "itemFlour");
-		GameRegistry.registerItem(BRItems.itemMutton, "itemMutton");
 		GameRegistry.registerItem(BRItems.itemMuttonRaw, "itemMuttonRaw");
+		GameRegistry.registerItem(BRItems.itemMutton, "itemMutton");
 		
 		// Food (bowl)
 		GameRegistry.registerItem(BRItems.itemFruitSalad, "itemFruitSalad");

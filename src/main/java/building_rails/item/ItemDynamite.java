@@ -35,7 +35,6 @@ public class ItemDynamite extends Item {
 		this.subtypeCount = 4;
 		this.setMaxStackSize(64);
 		this.setCreativeTab(BuildingRails.creativeTab);
-		this.setTextureName(BuildingRails.modid + ":itemDynamite");
 	}
 	
 	@Override
@@ -67,13 +66,13 @@ public class ItemDynamite extends Item {
 		
 		for (int i = 0; i < subtypeCount; i++) {
 			if (i == 0)
-				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamite");
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":explosives/itemDynamite");
 			if (i == 1)
-				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteEnder");
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":explosives/itemDynamiteEnder");
 			if (i == 2)
-				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteSticky");
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":explosives/itemDynamiteSticky");
 			if (i == 3)
-				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":itemDynamiteCombo");
+				this.icons[i] = iconRegister.registerIcon(BuildingRails.modid + ":explosives/itemDynamiteCombo");
 		}
 	}
 	
