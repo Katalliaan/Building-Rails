@@ -11,7 +11,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemMonsterStew extends ItemFood {
+public class ItemMonsterStew extends ItemPotFood {
 	public ItemMonsterStew(int i, boolean b) {
 		this(i, 0.6f, b);
 	}
@@ -32,13 +32,6 @@ public class ItemMonsterStew extends ItemFood {
 			if (world.rand.nextFloat() < 0.2f) {
 				entityPlayer.addPotionEffect(new PotionEffect(Potion.poison.id,
 						5 * 20, 0));
-			}
-
-			if (!entityPlayer.inventory.addItemStackToInventory(new ItemStack(
-					BRItems.itemPotEmpty))) {
-				world.spawnEntityInWorld(new EntityItem(world,
-						entityPlayer.posX, entityPlayer.posY,
-						entityPlayer.posZ, new ItemStack(BRItems.itemPotEmpty)));
 			}
 		}
 	}

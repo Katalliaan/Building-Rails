@@ -76,15 +76,18 @@ public class BRItems {
 	public static Item itemRoastedPumpkin = new ItemFood(1, false)
 			.setUnlocalizedName("building_rails.item.roastedPumpkin")
 			.setTextureName(BuildingRails.modid + ":roastedPumpkin");
-	public static Item itemSalad = new ItemBowlFood(1, false).setUnlocalizedName(
-			"building_rails.item.salad").setTextureName(
-			BuildingRails.modid + ":salad");
+	public static Item itemSalad = new ItemBowlFood(1, false)
+			.setUnlocalizedName("building_rails.item.salad").setTextureName(
+					BuildingRails.modid + ":salad");
 	public static Item itemSashimi = new ItemFood(1, false).setUnlocalizedName(
 			"building_rails.item.sashimi").setTextureName(
 			BuildingRails.modid + ":sashimi");
 	public static Item itemSucklingPorkchop = new ItemFood(1, true)
 			.setUnlocalizedName("building_rails.item.sucklingPorkchop")
 			.setTextureName(BuildingRails.modid + ":sucklingPorkchop");
+	public static Item itemStock = new ItemPotFood(1, false)
+			.setUnlocalizedName("building_rails.item.stock").setTextureName(
+					BuildingRails.modid + ":potStock");
 
 	public static void registerItems() {
 		GameRegistry.registerItem(BRItems.itemDynamite, "itemDynamite");
@@ -116,6 +119,7 @@ public class BRItems {
 		GameRegistry.registerItem(BRItems.itemSashimi, "itemSashimi");
 		GameRegistry.registerItem(BRItems.itemSucklingPorkchop,
 				"itemSucklingPorkchop");
+		GameRegistry.registerItem(BRItems.itemStock, "itemStock");
 	}
 
 	public static void registerRecipes() {
@@ -125,13 +129,13 @@ public class BRItems {
 				Items.gunpowder));
 		// ender dynamite
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite,
-				8, 1), "ddd", "ded", "ddd", 'd',
-				new ItemStack(itemDynamite, 1, 0), 'e', Items.ender_pearl));
+				8, 1), "ddd", "ded", "ddd", 'd', new ItemStack(itemDynamite, 1,
+				0), 'e', Items.ender_pearl));
 		// combo dynamite
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite,
-				8, 3), "ddd", "ded", "ddd", 'd',
-				new ItemStack(itemDynamite, 1, 2), 'e', Items.ender_pearl));
-		
+				8, 3), "ddd", "ded", "ddd", 'd', new ItemStack(itemDynamite, 1,
+				2), 'e', Items.ender_pearl));
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
 				blastingCap_iron), " f ", "iri", " i ", 'f',
 				Items.flint_and_steel, 'r', "dustRedstone", 'i', "ingotIron"));
@@ -141,6 +145,7 @@ public class BRItems {
 	}
 
 	public static void registerDispenserBehaviors() {
-		BlockDispenser.dispenseBehaviorRegistry.putObject(BRItems.itemDynamite, ItemDynamite.dispenserDynamiteBehavior);
-}
+		BlockDispenser.dispenseBehaviorRegistry.putObject(BRItems.itemDynamite,
+				ItemDynamite.dispenserDynamiteBehavior);
+	}
 }

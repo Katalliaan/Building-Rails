@@ -10,7 +10,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemMushsterStew extends ItemFood {
+public class ItemMushsterStew extends ItemPotFood {
 	public ItemMushsterStew(int i, boolean b) {
 		this(i, 0.6f, b);
 	}
@@ -23,17 +23,11 @@ public class ItemMushsterStew extends ItemFood {
 	@Override
 	protected void onFoodEaten(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer) {
+		super.onFoodEaten(itemStack, world, entityPlayer);
 		if (!world.isRemote) {
 			if (world.rand.nextFloat() < 0.3f) {
 				entityPlayer.addPotionEffect(new PotionEffect(
 						Potion.confusion.id, 10 * 20, 0));
-			}
-
-			if (!entityPlayer.inventory.addItemStackToInventory(new ItemStack(
-					BRItems.itemPotEmpty))) {
-				world.spawnEntityInWorld(new EntityItem(world,
-						entityPlayer.posX, entityPlayer.posY,
-						entityPlayer.posZ, new ItemStack(BRItems.itemPotEmpty)));
 			}
 		}
 	}
