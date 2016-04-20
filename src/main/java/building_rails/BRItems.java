@@ -41,10 +41,10 @@ public class BRItems {
 			.setUnlocalizedName("building_rails.item.flour")
 			.setTextureName(BuildingRails.modid + ":flour")
 			.setCreativeTab(BuildingRails.creativeTab);
-	public static Item itemFruitSalad = new ItemFood(1, false)
+	public static Item itemFruitSalad = new ItemBowlFood(1, false)
 			.setUnlocalizedName("building_rails.item.fruitSalad")
 			.setTextureName(BuildingRails.modid + ":fruitSalad");
-	public static Item itemMashedPotatoes = new ItemFood(1, false)
+	public static Item itemMashedPotatoes = new ItemBowlFood(1, false)
 			.setUnlocalizedName("building_rails.item.mashedPotatoes")
 			.setTextureName(BuildingRails.modid + ":mashedPotatoes");
 	public static Item itemMutton = new ItemFood(1, true).setUnlocalizedName(
@@ -76,7 +76,7 @@ public class BRItems {
 	public static Item itemRoastedPumpkin = new ItemFood(1, false)
 			.setUnlocalizedName("building_rails.item.roastedPumpkin")
 			.setTextureName(BuildingRails.modid + ":roastedPumpkin");
-	public static Item itemSalad = new ItemFood(1, false).setUnlocalizedName(
+	public static Item itemSalad = new ItemBowlFood(1, false).setUnlocalizedName(
 			"building_rails.item.salad").setTextureName(
 			BuildingRails.modid + ":salad");
 	public static Item itemSashimi = new ItemFood(1, false).setUnlocalizedName(
