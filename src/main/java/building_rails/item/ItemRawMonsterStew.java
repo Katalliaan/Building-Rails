@@ -1,6 +1,9 @@
 package building_rails.item;
 
+import building_rails.BRItems;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -20,9 +23,18 @@ public class ItemRawMonsterStew extends ItemFood {
 	@Override
 	protected void onFoodEaten(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer) {
-		entityPlayer.addPotionEffect(new PotionEffect(Potion.hunger.id,
-				30 * 20, 0));
-		entityPlayer.addPotionEffect(new PotionEffect(Potion.poison.id,
-				5 * 20, 0));
+		if (!world.isRemote) {
+			entityPlayer.addPotionEffect(new PotionEffect(Potion.hunger.id,
+					30 * 20, 0));
+			entityPlayer.addPotionEffect(new PotionEffect(Potion.poison.id,
+					5 * 20, 0));
+
+			if (!entityPlayer.inventory.addItemStackToInventory(new ItemStack(
+					BRItems.itemPotEmpty))) {
+				world.spawnEntityInWorld(new EntityItem(world,
+						entityPlayer.posX, entityPlayer.posY,
+						entityPlayer.posZ, new ItemStack(BRItems.itemPotEmpty)));
+			}
+		}
 	}
 }
