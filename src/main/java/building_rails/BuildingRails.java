@@ -3,7 +3,7 @@ package building_rails;
 import java.util.logging.Logger;
 
 import building_rails.entity.EntityThrownDynamite;
-import building_rails.events.EventLivingDropListener;
+import building_rails.events.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -47,6 +47,7 @@ public class BuildingRails {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		BRItems.registerItems();
+		BRBlocks.registerBlocks();
 
 		EntityRegistry.registerModEntity(EntityThrownDynamite.class,
 				"ThrownDynamite", 0, this, 64, 1, true);
@@ -57,9 +58,12 @@ public class BuildingRails {
 		BRItems.registerRecipes();
 		BRItems.registerDispenserBehaviors();
 		
+		BRBlocks.registerTEs();
+		
 		proxy.registerRenderers();
 		
 		MinecraftForge.EVENT_BUS.register(new EventLivingDropListener());
+		MinecraftForge.EVENT_BUS.register(new ExplosionListener());
 	}
 
 	@EventHandler
