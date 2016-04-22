@@ -19,7 +19,7 @@ public class TileEntityOreFissure extends TileEntity {
 
 		if (biome == null) {
 			biome = FissureBiome.getBiome(worldObj.getBiomeGenForCoords(xCoord,
-					yCoord));
+					zCoord));
 		}
 		if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 3 && !worldObj.isRemote) {
 			ItemStack stack;
