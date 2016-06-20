@@ -12,6 +12,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityOreFissure extends TileEntity {
 	FissureBiome biome;
+	int oreWeight;
+	int cobbleWeight;
 
 	@Override
 	public void updateEntity() {
@@ -20,26 +22,36 @@ public class TileEntityOreFissure extends TileEntity {
 		if (biome == null) {
 			biome = FissureBiome.getBiome(worldObj.getBiomeGenForCoords(xCoord,
 					zCoord));
+			oreWeight = 90;
+			cobbleWeight = 10;
 		}
-		if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 3 && !worldObj.isRemote) {
+		if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 3
+				&& !worldObj.isRemote) {
 			ItemStack stack;
 
-			switch (this.biome) {
-			case COPPER:
-				stack = OreDictionary.getOres("oreCopper").get(0);
-				break;
-			case GOLD:
-				stack = new ItemStack(Blocks.gold_ore);
-				break;
-			case IRON:
-				stack = new ItemStack(Blocks.iron_ore);
-				break;
-			case TIN:
-				stack = OreDictionary.getOres("oreTin").get(0);
-				break;
-			default:
+			if (this.worldObj.rand.nextInt(cobbleWeight + oreWeight) < oreWeight) {
+				switch (this.biome) {
+				case COPPER:
+					stack = OreDictionary.getOres("oreCopper").get(0);
+					break;
+				case GOLD:
+					stack = new ItemStack(Blocks.gold_ore);
+					break;
+				case IRON:
+					stack = new ItemStack(Blocks.iron_ore);
+					break;
+				case TIN:
+					stack = OreDictionary.getOres("oreTin").get(0);
+					break;
+				default:
+					stack = new ItemStack(Blocks.cobblestone);
+					break;
+				}
+				
+				oreWeight--;
+			}
+			else {
 				stack = new ItemStack(Blocks.cobblestone);
-				break;
 			}
 
 			worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord + 0.5F,

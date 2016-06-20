@@ -17,16 +17,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import building_rails.entity.EntityThrownDynamite;
 import building_rails.item.*;
 import building_rails.item.ItemBlastingCap.CapMaterial;
+import building_rails.item.ItemMaterial.Material;
 
 public class BRItems {
+	// Crafting Items
+	public static Item itemMaterials = new ItemMaterial();
+
 	// Explosives
 	public static Item itemDynamite = new ItemDynamite();
 	public static Item blastingCap_iron = new ItemBlastingCap(CapMaterial.IRON)
-			.setTextureName(BuildingRails.modid + ":explosives/blastingCap_iron");
+			.setTextureName(BuildingRails.modid
+					+ ":explosives/blastingCap_iron");
 	public static Item blastingCap_steel = new ItemBlastingCap(
 			CapMaterial.STEEL).setTextureName(BuildingRails.modid
 			+ ":explosives/blastingCap_steel");
@@ -98,6 +104,12 @@ public class BRItems {
 			.setTextureName(BuildingRails.modid + ":food/sucklingPorkchop");
 
 	public static void registerItems() {
+		// Crafting Items
+		GameRegistry.registerItem(BRItems.itemMaterials, "itemMaterials");
+		for (Material m : ItemMaterial.Material.values()) {
+			OreDictionary.registerOre(m.oreDict, new ItemStack(BRItems.itemMaterials, 1, m.ordinal()));
+		}
+
 		// Explosives
 		GameRegistry.registerItem(BRItems.itemDynamite, "itemDynamite");
 		GameRegistry.registerItem(BRItems.blastingCap_iron, "blastingCap_iron");
@@ -110,12 +122,12 @@ public class BRItems {
 		GameRegistry.registerItem(BRItems.itemFlour, "itemFlour");
 		GameRegistry.registerItem(BRItems.itemMuttonRaw, "itemMuttonRaw");
 		GameRegistry.registerItem(BRItems.itemMutton, "itemMutton");
-		
+
 		// Food (bowl)
 		GameRegistry.registerItem(BRItems.itemFruitSalad, "itemFruitSalad");
 		GameRegistry.registerItem(BRItems.itemMashedPotatoes,
 				"itemMashedPotatoes");
-		
+
 		// Food (pot)
 		GameRegistry.registerItem(BRItems.itemPotEmpty, "itemPotEmpty");
 		GameRegistry.registerItem(BRItems.itemPotMonsterStew,
@@ -128,7 +140,7 @@ public class BRItems {
 				"itemPotRawMushsterStew");
 		GameRegistry.registerItem(BRItems.itemPotWater, "itemPotWater");
 		GameRegistry.registerItem(BRItems.itemStock, "itemStock");
-		
+
 		// Food (others)
 		GameRegistry.registerItem(BRItems.itemRoastedPumpkin,
 				"itemRoastedPumpkin");
@@ -143,6 +155,11 @@ public class BRItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite),
 				" s ", "pgp", "pgp", 's', Items.string, 'p', Items.paper, 'g',
 				Items.gunpowder));
+		// sticky dynamite
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite,
+				8, 2), "ddd", "dtd", "ddd", 'd', new ItemStack(itemDynamite, 1,
+				0), 't', new ItemStack(itemMaterials, 1,
+				ItemMaterial.Material.ITEM_TAR.ordinal())));
 		// ender dynamite
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite,
 				8, 1), "ddd", "ded", "ddd", 'd', new ItemStack(itemDynamite, 1,
@@ -151,7 +168,12 @@ public class BRItems {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite,
 				8, 3), "ddd", "ded", "ddd", 'd', new ItemStack(itemDynamite, 1,
 				2), 'e', Items.ender_pearl));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemDynamite,
+				8, 3), "ddd", "dtd", "ddd", 'd', new ItemStack(itemDynamite, 1,
+				1), 't', new ItemStack(itemMaterials, 1,
+						ItemMaterial.Material.ITEM_TAR.ordinal())));
 
+		// blasting caps
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(
 				blastingCap_iron), " f ", "iri", " i ", 'f',
 				Items.flint_and_steel, 'r', "dustRedstone", 'i', "ingotIron"));
