@@ -5,7 +5,7 @@ building_rails.item.dynamoRedstone.name=Redstone Dynamo
 building_rails.item.ingotRedstoneAlloy.name=Redstone Alloy
 building_rails.item.ingotPlastic.name=Plastic Ingot
 building_rails.item.sludgeGreen.name=Green Sludge
-building_rails.item.nuggetBronze.name = Bronze Nugget
+building_rails.item.nuggetBronze.name=Bronze Nugget
 
 building_rails.item.itemDynamite.name=Dynamite
 building_rails.item.itemDynamite.ender.name=Ender Dynamite
