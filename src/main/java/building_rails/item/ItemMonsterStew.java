@@ -24,6 +24,7 @@ public class ItemMonsterStew extends ItemPotFood {
 	@Override
 	protected void onFoodEaten(ItemStack itemStack, World world,
 			EntityPlayer entityPlayer) {
+		super.onFoodEaten(itemStack, world, entityPlayer);
 		if (!world.isRemote) {
 			if (world.rand.nextFloat() < 0.5f) {
 				entityPlayer.addPotionEffect(new PotionEffect(
