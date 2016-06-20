@@ -60,7 +60,8 @@ public class ItemMaterial extends Item {
 		DYNAMO_REDSTONE("dynamoRedstone"),
 		REDSTONE_ALLOY_INGOT("ingotRedstoneAlloy"),
 		PLASTIC_INGOT("ingotPlastic"),
-		ITEM_GREEN_SLUDGE("sludgeGreen");
+		ITEM_GREEN_SLUDGE("sludgeGreen"),
+		BRONZE_NUGGET("nuggetBronze");
 		
 		public final String unlocalizedName;
 		public final String oreDict;
